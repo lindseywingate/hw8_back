@@ -32,18 +32,12 @@ app.use(express.urlencoded({ extended: false }));
 
 var url = "https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=LindseyW-searchhw-PRD-02eb6be68-006d798c&GLOBAL-ID=EBAY-US&RESPONSE-DATA-FORMAT=JSON&callback=_cb_findItemsByKeywords&REST-PAYLOAD&keywords=harry%20potter&paginationInput.entriesPerPage=3";
 
-https.get(url, (resp) => {
-    let data = '';
-    resp.on('data', (chunk) => {
-        data += chunk;
-    });
-    resp.on('end', () => {
-        console.log(JSON.parse(data).explanation);
-    });
-}).on('error', (err) => {
-    console.log('err: ' + err.message);
+request('http://svcs.ebay.com/services/', { json: true }, (err, res, body) => {
+  if (err) { return console.log(err); }
+  console.log("this is the body", body);
+  console.log(body.explanation);
 });
-    
+
 //app.post('/testUpload', upload.single('file'), function(req,res) {
 //    debug(req.file);
 //    console.log('storage location is ', req.hostname +'/' + req.file.path);
